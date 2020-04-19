@@ -15,6 +15,8 @@ class DropboxController {
     this.inputFilesEl.addEventListener("change", (event) => {
       console.log(event.target.files);
       this.snackModalEl.style.display = "block";
+
+      this.uploadTask(event.target.files);
     });
   }
 
