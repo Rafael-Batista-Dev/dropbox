@@ -7,7 +7,12 @@ class DropboxController {
     this.fileNameEl = this.snackModalEl.querySelector(".filename");
     this.timeLeftEl = this.snackModalEl.querySelector(".timeleft");
 
+    this.connFirebase();
     this.initEvents();
+  }
+
+  connFirebase() {
+    //Parametros do seu Firebase
   }
 
   initEvents() {
@@ -16,12 +21,33 @@ class DropboxController {
     });
 
     this.inputFilesEl.addEventListener("change", (event) => {
-      this.uploadTask(event.target.files);
+      this.btnSendFileEl.disabled = true;
+
+      this.uploadTask(event.target.files)
+        .then((responses) => {
+          responses.forEach((resp) => {
+            console.log(resp.files["input-file"]);
+            this.getFirebaseRef().push().set(resp.files["input-file"]);
+          });
+          this.uploadComplete();
+        })
+        .catch((err) => {
+          this.uploadComplete();
+          console.error(err);
+        });
 
       this.modalShow();
-
-      this.inputFilesEl.value = "";
     });
+  }
+
+  uploadComplete() {
+    this.modalShow(false);
+    this.inputFilesEl.value = "";
+    this.btnSendFileEl.disabled = false;
+  }
+
+  getFirebaseRef() {
+    return firebase.database().ref("files");
   }
 
   modalShow(show = true) {
@@ -39,8 +65,6 @@ class DropboxController {
           ajax.open("POST", "/upload");
 
           ajax.onload = (event) => {
-            this.modalShow(false);
-
             try {
               resolve(JSON.parse(ajax.responseText));
             } catch (e) {
@@ -49,7 +73,6 @@ class DropboxController {
           };
 
           ajax.onerror = (event) => {
-            this.modalShow();
             reject(event);
           };
 
