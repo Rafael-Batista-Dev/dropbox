@@ -18,24 +18,6 @@ class DropboxController {
     this.readFiles();
   }
 
-  connFirebase() {
-    //Parametros do seu Firebase
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyDNR8my6SJrLK_cir9tDKHhragtJVJvmAE",
-      authDomain: "dropbox-37824.firebaseapp.com",
-      databaseURL: "https://dropbox-37824.firebaseio.com",
-      projectId: "dropbox-37824",
-      storageBucket: "dropbox-37824.appspot.com",
-      messagingSenderId: "753664707924",
-      appId: "1:753664707924:web:577ce413866cc8c408ccc1",
-      measurementId: "G-PNTT4X7JBH",
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-  }
-
   getSelection() {
     return this.listFilesEl.querySelectorAll(".selected");
   }

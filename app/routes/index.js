@@ -36,7 +36,7 @@ router.delete("/file", (req, res) => {
 router.post("/upload", (req, res) => {
   let form = new fomidable.IncomingForm({
     uploadDir: "./upload",
-    KeepExtensions: true, // para manter a extenssão
+    keepExtensions: true, // para manter a extenssão
   });
 
   form.parse(req, (err, fields, files) => {
