@@ -14,9 +14,43 @@ class DropBoxController {
     });
 
     this.inputFileEl.addEventListener("change", (event) => {
-      console.log(event.target.files);
+      this.uploadTask(event.target.files);
 
       this.snackModalEl.style.display = "block";
     });
+  }
+
+  uploadTask(files) {
+    let promises = [];
+
+    //Usando o spreed para expandir o array
+    [...files].forEach((file) => {
+      promises.push(
+        new Promise((resolve, reject) => {
+          let ajax = new XMLHttpRequest();
+
+          ajax.open("POST", "/upload");
+
+          ajax.onload = (event) => {
+            try {
+              resolve(JSON.parse(ajax.responseText));
+            } catch (e) {
+              reject(e);
+            }
+          };
+
+          ajax.onerror = (event) => {
+            reject(event);
+          };
+
+          let formData = new FormData();
+
+          formData.append("input-file", file);
+
+          ajax.send(formData);
+        })
+      );
+    });
+    return Promise.all(promises);
   }
 }
