@@ -14,6 +14,19 @@ class DropBoxController {
 
   connectFireBase() {
     // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDQw9kgFD6LVfdPOIsODRUKe4KxYdC9QnQ",
+      authDomain: "dropbox-84ec2.firebaseapp.com",
+      databaseURL: "https://dropbox-84ec2.firebaseio.com",
+      projectId: "dropbox-84ec2",
+      storageBucket: "dropbox-84ec2.appspot.com",
+      messagingSenderId: "546658136175",
+      appId: "1:546658136175:web:3aa15a9785fdf6e6f3dd9a",
+      measurementId: "G-45V97HN0PC",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
   }
 
   initEvents() {
@@ -22,12 +35,34 @@ class DropBoxController {
     });
 
     this.inputFileEl.addEventListener("change", (event) => {
-      this.uploadTask(event.target.files);
+      this.btnSendFileEl.disabled = true;
+
+      this.uploadTask(event.target.files)
+        .then((responses) => {
+          responses.forEach((resp) => {
+            //Chamada do method para add arquivos
+            this.getFirebaseRef().push().set(resp.files["input-file"]);
+          });
+
+          this.uploadComplete();
+        })
+        .catch((e) => {
+          this.uploadComplete();
+          console.log(e);
+        });
 
       this.modalShow();
-
-      this.inputFileEl.value = "";
     });
+  }
+
+  uploadComplete() {
+    this.modalShow(false);
+    this.inputFileEl.value = "";
+    this.btnSendFileEl.disabled = false;
+  }
+
+  getFirebaseRef() {
+    return firebase.database().ref("files");
   }
 
   //Method mostra e esconder modal
@@ -47,8 +82,6 @@ class DropBoxController {
           ajax.open("POST", "/upload");
 
           ajax.onload = (event) => {
-            this.modalShow(false);
-
             try {
               resolve(JSON.parse(ajax.responseText));
             } catch (e) {
@@ -57,7 +90,6 @@ class DropBoxController {
           };
 
           ajax.onerror = (event) => {
-            this.modalShow(false);
             reject(event);
           };
 
