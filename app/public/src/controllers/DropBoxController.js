@@ -39,6 +39,22 @@ class DropBoxController {
   }
 
   initEvents() {
+    //Criando evento de click no btnRename
+    this.btnRename.addEventListener("click", (e) => {
+      let li = this.getSelection()[0];
+      //Retornando a string e convertendo para obj
+      let file = JSON.parse(li.dataset.file);
+
+      //Caixa de dialogo
+      let name = prompt("Renomear o arquivo: ", file.name);
+
+      if (name) {
+        file.name = name;
+
+        this.getFirebaseRef().child(li.dataset.key).set(file);
+      }
+    });
+
     this.listFilesEl.addEventListener("selectionchange", (e) => {
       //Selecionando opçoes do menu
       switch (this.getSelection().length) {
@@ -356,6 +372,8 @@ class DropBoxController {
     let li = document.createElement("li");
 
     li.dataset.key = key;
+    //recuperando o obj e convertendo para string
+    li.dataset.file = JSON.stringify(file);
 
     li.innerHTML = `      
       ${this.getFileIconView(file)}
