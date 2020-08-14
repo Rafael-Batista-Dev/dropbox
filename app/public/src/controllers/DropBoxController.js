@@ -24,19 +24,7 @@ class DropBoxController {
   }
 
   connectFirebase() {
-    var firebaseConfig = {
-      apiKey: "AIzaSyDQw9kgFD6LVfdPOIsODRUKe4KxYdC9QnQ",
-      authDomain: "dropbox-84ec2.firebaseapp.com",
-      databaseURL: "https://dropbox-84ec2.firebaseio.com",
-      projectId: "dropbox-84ec2",
-      storageBucket: "dropbox-84ec2.appspot.com",
-      messagingSenderId: "546658136175",
-      appId: "1:546658136175:web:3aa15a9785fdf6e6f3dd9a",
-      measurementId: "G-45V97HN0PC",
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+    //Suas credencias firebase aqui!!!!!
   }
 
   getSelection() {
