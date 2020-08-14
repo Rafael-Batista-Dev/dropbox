@@ -1,22 +1,20 @@
 class DropBoxController {
   constructor() {
-    this.currentFolder = ["hcode"];
-
-    this.onselectionchange = new Event("selectionchange");
-
-    this.navEl = document.querySelector("#browse-location");
-    this.btnSendFileEl = document.querySelector("#btn-send-file");
-    this.inputFilesEl = document.querySelector("#files");
-    this.snackModalEl = document.querySelector("#react-snackbar-root");
-    this.progressBarEl = this.snackModalEl.querySelector(".mc-progress-bar-fg");
-    this.namefileEl = this.snackModalEl.querySelector(".filename");
-    this.timeleftEl = this.snackModalEl.querySelector(".timeleft");
     this.listFilesEl = document.querySelector("#list-of-files-and-directories");
+    this.progressBarEl = this.snackModalEl.querySelector(".mc-progress-bar-fg");
+    this.snackModalEl = document.querySelector("#react-snackbar-root");
+    this.btnSendFileEl = document.querySelector("#btn-send-file");
+    this.namefileEl = this.snackModalEl.querySelector(".filename");
 
     this.btnNewFolder = document.querySelector("#btn-new-folder");
     this.btnRename = document.querySelector("#btn-rename");
     this.btnDelete = document.querySelector("#btn-delete");
+    this.currentFolder = ["midia"];
 
+    this.timeleftEl = this.snackModalEl.querySelector(".timeleft");
+    this.navEl = document.querySelector("#browse-location");
+    this.onselectionchange = new Event("selectionchange");
+    this.inputFilesEl = document.querySelector("#files");
     this.connectFirebase();
     this.initEvents();
 
@@ -72,7 +70,7 @@ class DropBoxController {
 
           folderRef.remove();
         } else {
-          this.getFirebaseRef("hcode").child(key).remove();
+          this.getFirebaseRef("midia").child(key).remove();
         }
       });
     });
